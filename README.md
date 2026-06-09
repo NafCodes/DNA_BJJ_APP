@@ -12,7 +12,7 @@ This is for BJJ it will be used mostly for attendance tracking, and will have fe
 
 DNA is a coach-facing mobile web app. Students interact with it in exactly one way — scanning a QR code to sign their annual waiver. Everything else is for coaches and instructors only.
 
-This repo is the **backend API**. The frontend lives in a separate repo (`dna-bjj-frontend`).
+This repo is the **backend API**. The frontend lives in [`GymMangment_app_demo`](https://github.com/NafCodes/GymMangment_app_demo).
 
 ---
 
@@ -31,28 +31,30 @@ This repo is the **backend API**. The frontend lives in a separate repo (`dna-bj
 
 ## Getting Started
 
+See **[docs/README.md](docs/README.md)** for full setup. Quick version:
+
 ### Prerequisites
 
 - Node.js v18+
 - A Supabase project (see [supabase.com](https://supabase.com))
-- Access to the `.env` file (ask a team member — never committed to the repo)
+- Copy `.env.example` to `.env` and fill in values — never commit `.env`
 
 ### Install
 
 ```bash
-git clone https://github.com/your-org/dna-bjj-api.git
-cd dna-bjj-api
+git clone https://github.com/NafCodes/DNA_BJJ_APP.git
+cd DNA_BJJ_APP
 npm install
+cp .env.example .env
 ```
 
 ### Environment Variables
 
-Create a `.env` file in the root:
+See [docs/01-setup/env-and-secrets.md](docs/01-setup/env-and-secrets.md).
 
 ```
 SUPABASE_URL=your_supabase_project_url
-SUPABASE_KEY=your_supabase_anon_key
-JWT_SECRET=your_jwt_secret
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 PORT=3000
 ```
 

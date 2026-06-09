@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": "python3 .cursor/hooks/guard_env_files.py"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "bash .cursor/hooks/block_secret_echo.sh"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "python3 .cursor/hooks/prompt_guard_secrets.py"
+      }
+    ],
+    "stop": [
+      {
+        "command": "python3 .cursor/hooks/suggest_verify.py"
+      }
+    ]
+  }
+}

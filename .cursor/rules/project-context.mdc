@@ -1,0 +1,35 @@
+---
+description: DNA BJJ project context — two-repo architecture, roles, business rules
+alwaysApply: true
+---
+
+# DNA BJJ project context
+
+## Two repos, never merged
+
+- **DNA_BJJ_APP** (this repo): Express API → Supabase
+- **GymMangment_app_demo**: React + Vite coach UI (localStorage until Phase 2)
+
+They communicate over HTTPS. Frontend calls Express; Express uses Supabase service role.
+
+## Users
+
+- **Coaches:** email/password login via Supabase Auth (Phase 2 frontend). JWT sent as `Authorization: Bearer <token>` to Express.
+- **Students:** no accounts. QR code → `/sign-waiver` page only.
+
+## Business rules
+
+- Waivers expire **January 1 of the year following signing** — not 12 months from sign date.
+- Belt stripes: exactly 4 slots per student, numbered 1–4.
+- Attendance: one check-in per student per session date (DB UNIQUE constraint).
+- `waiver_active` on `students` tracks waiver status for now; full waivers API route deferred.
+
+## Supabase tables (lowercase)
+
+`students`, `stripes`, `attendance`, `waivers`
+
+Obsolete names (removed): `Students_table`, `Strips`, `Attendance`, `Waivers`.
+
+## Docs are source of truth
+
+Use `docs/` — not the PDF handoff files in `docs/*.pdf`.

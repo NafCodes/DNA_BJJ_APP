@@ -1,0 +1,41 @@
+---
+description: Express API route conventions for DNA BJJ backend
+globs: src/**/*.js
+alwaysApply: false
+---
+
+# Express API conventions
+
+Follow `docs/03-architecture/api-contract.md`.
+
+## Router pattern
+
+- One router per resource in `src/routes/`
+- Mount in `src/index.js` with plural path: `/students`, `/stripes`, `/attendance`
+- Use `requireAuth` from `src/middleware/auth.js` on all coach routes
+
+## Supabase access
+
+- Import `supabase` from `src/lib/supabase.js` (service role client)
+- Table names: `students`, `stripes`, `attendance`, `waivers` — lowercase only
+- Match column names in DB: `belt_level`, `join_date`, `student_id`, `stripe_number`, `session_date`, `waiver_active`
+
+## Request / response
+
+- JSON body via `express.json()`
+- Validation: return `400` with `{ error: '...' }` for missing required fields
+- Supabase errors: return `500` with `{ error: error.message }`
+- Not found: return `404` with `{ error: '...' }`
+- Delete success: return `204` with empty body
+
+## Auth
+
+- Read `Authorization: Bearer <jwt>` header
+- Validate via `supabase.auth.getUser(token)` — attach `req.user` on success
+- Do not add separate JWT verification; Supabase Auth is the source of truth
+
+## Phase 2 additions (not yet implemented)
+
+- CORS middleware before routes
+- Centralized error handler
+- Zod validation on request bodies

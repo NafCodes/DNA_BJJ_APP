@@ -1,0 +1,37 @@
+---
+description: Supabase security for Express backend — RLS, keys, auth
+globs: src/**/*.js,supabase/**
+alwaysApply: false
+---
+
+# Supabase security (DNA BJJ)
+
+Follow `docs/02-supabase/rls-and-auth.md` and `.cursor/skills/supabase-backend/`.
+
+## Key usage
+
+| Key | Where | Purpose |
+|-----|-------|---------|
+| `SUPABASE_SERVICE_ROLE_KEY` | `src/lib/supabase.js` only | Backend DB access — bypasses RLS |
+| `SUPABASE_ANON_KEY` | Frontend repo only (Phase 2) | Coach login via Supabase Auth |
+
+Never expose service role in frontend, logs, or CI output.
+
+## Auth model
+
+- Express validates coach JWT with `supabase.auth.getUser(token)` in `requireAuth`
+- Backend uses service role for DB ops — auth gate is Express middleware, not client-side RLS
+- RLS is enabled on all tables; anon role can insert waivers only (future public waiver flow)
+
+## Rules
+
+- Never commit API keys — `.env` is gitignored
+- Never trust client-supplied IDs without verifying ownership when multi-tenant RLS is added
+- After schema changes: run security advisors via Supabase MCP or Dashboard
+- Save migration SQL to `supabase/migrations/` when DDL changes (Phase 2)
+
+## Obsolete patterns (do not use)
+
+- Next.js `middleware.ts` session refresh — this is Express, not Next.js
+- `NEXT_PUBLIC_*` env vars — use `VITE_*` in frontend repo
+- Lovable client-side Supabase for data writes — all writes go through Express

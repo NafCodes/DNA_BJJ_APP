@@ -4,6 +4,20 @@ import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
+// GET /stripes — list stripes, optionally filter by student_id
+router.get('/', requireAuth, async (req, res) => {
+  const { student_id } = req.query;
+
+  let query = supabase.from('stripes').select('*').order('stripe_number');
+
+  if (student_id) query = query.eq('student_id', student_id);
+
+  const { data, error } = await query;
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
 // POST /stripes — award a stripe to a student
 router.post('/', requireAuth, async (req, res) => {
   const { student_id, stripe_number, awarded_date } = req.body;
