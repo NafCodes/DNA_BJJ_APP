@@ -7,7 +7,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://your-vercel-url.vercel.app' // TODO: replace with actual Vercel URL after frontend is deployed
+    'https://gym-mangment-app.vercel.app'
   ]
 }));
 
