@@ -13,7 +13,12 @@ router.post('/', async (req, res) => {
 
   const { data, error } = await supabase
     .from('waivers')
-    .insert({ name, email, signature, date_signed, expires })
+    .insert({
+      signer_name:  name,
+      signer_email: email,
+      signed_date:  date_signed,
+      expires_date: expires,
+    })
     .select()
     .single();
 
